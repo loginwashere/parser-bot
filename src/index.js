@@ -57,7 +57,7 @@ const documentSchema = mongoose.Schema({
 
 documentSchema.virtual('title').get(() => `${this.id} ${this.object} ${this.object}`);
 
-const DocumentItem = mongoose.model('RssItem', documentSchema);
+const DocumentItem = mongoose.model('DocumentItem', documentSchema);
 
 const start = async () => {
   const res = await superagent
