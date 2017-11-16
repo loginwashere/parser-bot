@@ -118,10 +118,10 @@ const start = async () => {
 
   const items = [];
 
-  const region = 99;
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-  const search = 'Житлобуд-2';
+  const region = process.env.REGION || 99;
+  const year = process.env.YEAR || new Date().getFullYear();
+  const month = process.env.MONTH || new Date().getMonth() + 1;
+  const search = process.env.SEARCH || 'Житлобуд-2';
 
   const gaskRes = await superagent
     .post(gaskUrl)
