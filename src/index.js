@@ -55,7 +55,7 @@ const documentSchema = mongoose.Schema({
   land: String,
 }, { collection: documentsCollectionName });
 
-documentSchema.virtual('title').get(() => `${this.id} ${this.object} ${this.object}`);
+documentSchema.virtual('title').get(function () { return `${this.id} ${this.object} ${this.object}`;});
 
 const DocumentItem = mongoose.model('DocumentItem', documentSchema);
 
