@@ -45,7 +45,7 @@ const documentSchema = mongoose.Schema({
   id: String,
   region: String,
   document: String,
-  object: Date,
+  object: String,
   category: String,
   client: String,
   tech_supervisor: String,
