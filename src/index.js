@@ -193,7 +193,7 @@ function all(promises) {
   return ready.then(() => accumulator);
 }
 
-function jobAlreadyStored(rssItem) {
+function rssItemAlreadyStored(rssItem) {
   return RssItem.findOne({ id: rssItem.id })
     .then(foundRssItem => foundRssItem
       ? Promise.reject(foundRssItem)
