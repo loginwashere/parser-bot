@@ -72,10 +72,11 @@ const start = async () => {
         hash.update(article.link);
 
         debug(article);
-        debug(hash.digest('hex'));
+        const hashString = hash.digest('hex');
+        debug(hashString);
 
         return Object.assign({}, article, {
-          id: hash.digest('hex'),
+          id: hashString,
         });
       });
 
