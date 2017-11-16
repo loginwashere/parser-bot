@@ -37,7 +37,7 @@ const rssItemSchema = mongoose.Schema({
     link: String,
     name: String,
   }
-}, { collection: collectionName });
+}, { collection: rssItemsCollectionName });
 
 const RssItem = mongoose.model('RssItem', rssItemSchema);
 
