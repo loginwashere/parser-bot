@@ -159,7 +159,7 @@ const start = async () => {
         .map(storeDocumentItem))
     })
     .then(accumulator => {
-      debug(accumulator);
+      debug(accumulator);documentsCollectionName
       return all(accumulator
         .filter(item => item.status === 'resolved')
         .map(item => item.value)
@@ -217,7 +217,7 @@ function storeDocumentItem(documentItem) {
   return newDocumentItem.save();
 }
 
-function notify(job) {
+function notify(item) {
   return bot.sendMessage(chatId, formatMessage(item), {
     parse_mode: 'HTML'
   });
