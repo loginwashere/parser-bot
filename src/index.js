@@ -116,57 +116,68 @@ const start = async () => {
     'land',
   ];
 
-  const items = [];
-
   const region = process.env.REGION || 99;
-  const year = process.env.YEAR || new Date().getFullYear();
-  const month = process.env.MONTH || new Date().getMonth() + 1;
-  const search = process.env.SEARCH || 'Житлобуд-2';
+  const currentMonthDate = new Date();
+  const previousMonthDate = new Date();
+  previousMonthDate.setMonth(previousMonthDate.getMonth() - 1);
+  const dates = [
+    previousMonthDate,
+    currentMonthDate,
+  ];
 
-  const gaskRes = await superagent
-    .post(gaskUrl)
-    .type('form')
-    .send({
-      'filter[regob]': region,
-      'filter[date]': year,
-      'filter[date2]': month,
-      'filter[confind]': search
-    });
+  for (let date of dates) {
+    const year = process.env.YEAR || date.getFullYear();
+    const month = process.env.MONTH || date.getMonth() + 1;
+    const search = process.env.SEARCH || 'Житлобуд-2';
 
-  const $ = cheerio.load(gaskRes.text)
+    debug(region, year, month, search);
 
-  $('table.listTable tr:not("#tableHead, .header, .pages")')
-    .map((index, element) => {
-      const item = {};
-      $(element)
-        .children('td')
-        .map((i, childElement) => {
-          $(childElement).text();
-          item[fields[i]] = $(childElement).text().trim();
-        });
-      items.push(item)
-    });
+    const gaskRes = await superagent
+      .post(gaskUrl)
+      .type('form')
+      .send({
+        'filter[regob]': region,
+        'filter[date]': year,
+        'filter[date2]': month,
+        'filter[confind]': search
+      });
 
-  debug(items);
+    const $ = cheerio.load(gaskRes.text)
 
-  all(items.map(documentItemAlreadyStored))
-    .then(accumulator => {
-      debug(accumulator);
-      return all(accumulator
-        .filter(item => item.status === 'resolved')
-        .map(item => item.value)
-        .filter(Boolean)
-        .map(storeDocumentItem))
-    })
-    .then(accumulator => {
-      debug(accumulator);documentsCollectionName
-      return all(accumulator
-        .filter(item => item.status === 'resolved')
-        .map(item => item.value)
-        .filter(Boolean)
-        .map(notify))
-    })
-    .then(accumulator => debug(accumulator));
+    const items = [];
+    $('table.listTable tr:not("#tableHead, .header, .pages")')
+      .map((index, element) => {
+        const item = {};
+        $(element)
+          .children('td')
+          .map((i, childElement) => {
+            $(childElement).text();
+            item[fields[i]] = $(childElement).text().trim();
+          });
+        items.push(item)
+      });
+
+    debug(items);
+
+    all(items.map(documentItemAlreadyStored))
+      .then(accumulator => {
+        debug(accumulator);
+        return all(accumulator
+          .filter(item => item.status === 'resolved')
+          .map(item => item.value)
+          .filter(Boolean)
+          .map(storeDocumentItem))
+      })
+      .then(accumulator => {
+        debug(accumulator);documentsCollectionName
+        return all(accumulator
+          .filter(item => item.status === 'resolved')
+          .map(item => item.value)
+          .filter(Boolean)
+          .map(notify))
+      })
+      .then(accumulator => debug(accumulator));
+  }
 }
 
 
