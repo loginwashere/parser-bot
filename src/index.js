@@ -335,7 +335,7 @@ function documentItemAlreadyStored(documentItem) {
 function townNewsItemAlreadyStored(townNewsItem) {
   return TownNewsItem.findOne({ id: townNewsItem.id })
     .then(foundTownNewsItem => foundTownNewsItem
-      ? Promise.reject(TownNewsItem)
+      ? Promise.reject(foundTownNewsItem)
       : Promise.resolve(townNewsItem))
 }
 
