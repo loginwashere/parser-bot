@@ -18,6 +18,7 @@
     "node-schedule": "^1.2.5",
     "node-telegram-bot-api": "^0.29.0",
     "superagent": "^3.8.1",
-    "superagent-charset": "^1.2.0"
+    "superagent-charset": "^1.2.0",
+    "superagent-debugger": "^1.2.9"
   }
 }
