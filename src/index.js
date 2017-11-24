@@ -186,7 +186,7 @@ const processGask = async () => {
           .map(storeDocumentItem))
       })
       .then(accumulator => {
-        debug(accumulator);documentsCollectionName
+        debug(accumulator);
         return all(accumulator
           .filter(item => item.status === 'resolved')
           .map(item => item.value)
@@ -223,8 +223,6 @@ const processTownNews = async () => {
 
   const searchResponse = await agent
     .get(searchUrl);
-
-  debug(searchResponse.text);
 
   const $ = cheerio.load(searchResponse.text);
 
@@ -296,7 +294,6 @@ const run = async () => {
     debug('ERROR', e);
   }
 }
-
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
